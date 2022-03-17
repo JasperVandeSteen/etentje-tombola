@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "mongodb": "^4.4.1"
+  },
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "backend - tombola Etentje",
+  "main": "backEnd.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "Jasper Van de Steen",
+  "license": "ISC"
+}

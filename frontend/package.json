@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "http": "^0.0.1-security"
+  },
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "frontend - tombola Etentje",
+  "main": "script.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "Jasper Van de Steen",
+  "license": "ISC"
+}
