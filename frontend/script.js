@@ -30,7 +30,7 @@ function checkKey() {
                     usedKeys: newValue
                 }
             };
-            fetch('http://localhost:3000/api/useKey/6233bc7c2a95dc8efb1e6494', {
+            fetch('https://etentje-tombola-backend.herokuapp.com/api/useKey/6233bc7c2a95dc8efb1e6494', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ function checkKey() {
 }
 
 function fetchKeys() {
-    fetch("http://localhost:3000/api/getKeys")
+    fetch("https://etentje-tombola-backend.herokuapp.com/api/getKeys")
         .then(response => {
             return response.json();
         })
@@ -85,7 +85,7 @@ function runGame() {
                         highscores: data.highscores
                     }
                 };
-                fetch('http://localhost:3000/api/addHighScore/6233bc7c2a95dc8efb1e6494', {
+                fetch('https://etentje-tombola-backend.herokuapp.com/api/addHighScore/6233bc7c2a95dc8efb1e6494', {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ function runGame() {
                         highscores: data.highscores
                     }
                 };
-                fetch('http://localhost:3000/api/addHighScore/6233bc7c2a95dc8efb1e6494', {
+                fetch('https://etentje-tombola-backend.herokuapp.com/api/addHighScore/6233bc7c2a95dc8efb1e6494', {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
