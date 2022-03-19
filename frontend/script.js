@@ -37,15 +37,17 @@ function checkKey() {
             }).then(() => {
                 sessionStorage.setItem("playing", true);
                 let player = prompt("Naam Speler" + "\r\n" + "(Volledige naam):", '');
-                sessionStorage.setItem("player", player);
+                if (player != null) {
+                    sessionStorage.setItem("player", player);
 
-                text.style.display = "none";
-                squareContainer.style.marginTop = "20vh";
-                document.getElementById("highScores").style.display = "none";
+                    text.style.display = "none";
+                    squareContainer.style.marginTop = "20vh";
+                    document.getElementById("highScores").style.display = "none";
 
-                setTimeout(() => {
-                    runGame();
-                }, 500);
+                    setTimeout(() => {
+                        runGame();
+                    }, 500);
+                }
             });
         }
     } else {
