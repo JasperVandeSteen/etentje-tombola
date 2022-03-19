@@ -36,7 +36,7 @@ function checkKey() {
                 body: JSON.stringify(updateValue)
             }).then(() => {
                 sessionStorage.setItem("playing", true);
-                let player = prompt("Naam Speler:", '');
+                let player = prompt("Naam Speler" + "\r\n" + "(Volledige naam):", '');
                 sessionStorage.setItem("player", player);
 
                 text.style.display = "none";
