@@ -17,11 +17,8 @@ function checkKey() {
         let keyInput = prompt("Spel key:", '');
         if (!data.keys.includes(keyInput)) {
             alert("Ingevoerde key is fout!");
-            checkKey();
         } else if (data.usedKeys.includes(keyInput)) {
             alert("Ingevoerde key is reeds gebruikt!");
-            body.innerHTML = "";
-            checkKey();
         } else if (!data.usedKeys.includes(keyInput) && data.keys.includes(keyInput)) {
             data.usedKeys.push(keyInput);
             let newValue = data.usedKeys;
@@ -41,8 +38,24 @@ function checkKey() {
                 sessionStorage.setItem("playing", true);
                 let player = prompt("Naam Speler:", '');
                 sessionStorage.setItem("player", player);
+
+                text.style.display = "none";
+                squareContainer.style.marginTop = "20vh";
+                document.getElementById("highScores").style.display = "none";
+
+                setTimeout(() => {
+                    runGame();
+                }, 500);
             });
         }
+    } else {
+        text.style.display = "none";
+        squareContainer.style.marginTop = "20vh";
+        document.getElementById("highScores").style.display = "none";
+
+        setTimeout(() => {
+            runGame();
+        }, 500);
     }
 }
 
@@ -53,11 +66,27 @@ function fetchKeys() {
         })
         .then(jsondata => {
             data = jsondata[0];
+            let sortedHighScores = [];
+            let i = 1;
+            Object.entries(data.highscores).map(score => {
+                sortedHighScores.push(score);
+            });
+
+            sortedHighScores.sort(sortFunction);
+            sortedHighScores.forEach(score => {
+                document.getElementById("highScores").innerHTML += `
+                    <p>${i}. ${score[0]}: ${score[1]}</p>
+                `;
+                i++;
+            });
             body.style.display = "block";
-            checkKey();
         });
 }
 fetchKeys();
+
+function sortFunction(a, b) {
+    return a[1] + b[1]
+}
 
 function runGame() {
     let sequence = [];
@@ -77,9 +106,10 @@ function runGame() {
 
         timer = setTimeout(() => {
             if (!completed && !gameOver) {
+                let player = sessionStorage.getItem("player");
 
-                if (data.highscores[sessionStorage.getItem("player")] < score)
-                    data.highscores[sessionStorage.getItem("player")] = score;
+                if (data.highscores[player] < score || data.highscores[player] == undefined)
+                    data.highscores[player] = score;
                 let updateValue = {
                     $set: {
                         highscores: data.highscores
@@ -106,9 +136,10 @@ function runGame() {
         for (let i = 0; i < inputSequence.length; i++) {
             if (inputSequence[i] != sequence[i]) {
                 gameOver = true;
+                let player = sessionStorage.getItem("player");
 
-                if (data.highscores[sessionStorage.getItem("player")] < score)
-                    data.highscores[sessionStorage.getItem("player")] = score;
+                if (data.highscores[player] < score || data.highscores[player] == undefined)
+                    data.highscores[player] = score;
                 let updateValue = {
                     $set: {
                         highscores: data.highscores
@@ -231,14 +262,7 @@ function randomIntFromInterval(min, max) { // min and max included
 
 start.addEventListener('click', (e) => {
     e.preventDefault();
-    if (sessionStorage.getItem("playing")) {
-        text.style.display = "none";
-        squareContainer.style.marginTop = "20vh";
-
-        setTimeout(() => {
-            runGame();
-        }, 500);
-    }
+    checkKey();
 });
 
 red.addEventListener('click', (e) => {

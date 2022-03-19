@@ -60,3 +60,7 @@ body {
 #square4 {
     background-color: yellow;
 }
+
+#highScores {
+    padding-bottom: 5%;
+}
