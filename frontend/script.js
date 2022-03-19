@@ -1,5 +1,6 @@
 let data;
 let sound;
+let noName = false;
 
 let body = document.getElementById("body");
 let start = document.getElementById("start");
@@ -14,41 +15,61 @@ const yellow = document.getElementById("square4");
 
 function checkKey() {
     if (!sessionStorage.getItem("playing")) {
-        let keyInput = prompt("Spel key:", '');
-        if (!data.keys.includes(keyInput)) {
-            alert("Ingevoerde key is fout!");
-        } else if (data.usedKeys.includes(keyInput)) {
-            alert("Ingevoerde key is reeds gebruikt!");
-        } else if (!data.usedKeys.includes(keyInput) && data.keys.includes(keyInput)) {
-            data.usedKeys.push(keyInput);
-            let newValue = data.usedKeys;
-            let updateValue = {
-                $set: {
-                    usedKeys: newValue
-                }
-            };
-            fetch('https://etentje-tombola-backend.herokuapp.com/api/useKey/6233bc7c2a95dc8efb1e6494', {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(updateValue)
-            }).then(() => {
-                let player = prompt("Naam Speler" + "\r\n" + "(Volledige naam):", '');
-                if (player != null) {
-                    sessionStorage.setItem("playing", true);
-                    sessionStorage.setItem("player", player);
+        if (!noNameButKey) {
+            let keyInput = prompt("Spel key:", '');
+            if (!data.keys.includes(keyInput)) {
+                alert("Ingevoerde key is fout!");
+            } else if (data.usedKeys.includes(keyInput)) {
+                alert("Ingevoerde key is reeds gebruikt!");
+            } else if (!data.usedKeys.includes(keyInput) && data.keys.includes(keyInput)) {
+                data.usedKeys.push(keyInput);
+                let newValue = data.usedKeys;
+                let updateValue = {
+                    $set: {
+                        usedKeys: newValue
+                    }
+                };
+                fetch('https://etentje-tombola-backend.herokuapp.com/api/useKey/6233bc7c2a95dc8efb1e6494', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(updateValue)
+                }).then(() => {
+                    let player = prompt("Naam Speler" + "\r\n" + "(Volledige naam):", '');
+                    if (player != null) {
+                        sessionStorage.setItem("playing", true);
+                        sessionStorage.setItem("player", player);
 
-                    text.style.display = "none";
-                    squareContainer.style.marginTop = "20vh";
-                    document.getElementById("highScores").style.display = "none";
+                        text.style.display = "none";
+                        squareContainer.style.marginTop = "20vh";
+                        document.getElementById("highScores").style.display = "none";
 
-                    setTimeout(() => {
-                        runGame();
-                    }, 500);
-                }
-            });
+                        setTimeout(() => {
+                            runGame();
+                        }, 500);
+                    } else {
+                        noNameButKey = true;
+                    }
+                });
+            }
+        } else {
+            let player = prompt("Naam Speler" + "\r\n" + "(Volledige naam):", '');
+            if (player != null) {
+                sessionStorage.setItem("playing", true);
+                sessionStorage.setItem("player", player);
+
+                text.style.display = "none";
+                squareContainer.style.marginTop = "20vh";
+                document.getElementById("highScores").style.display = "none";
+
+                setTimeout(() => {
+                    runGame();
+                }, 500);
+            } else {
+                noNameButKey = true;
+            }
         }
     } else {
         text.style.display = "none";
