@@ -53,7 +53,7 @@ function fetchKeys() {
         })
         .then(jsondata => {
             data = jsondata[0];
-            console.log(data);
+            body.style.display = "block";
             checkKey();
         });
 }
@@ -77,9 +77,9 @@ function runGame() {
 
         timer = setTimeout(() => {
             if (!completed && !gameOver) {
-                alert("Je tijd is op!" + "\r\n" + "Jouw score was: " + score);
 
-                data.highscores[sessionStorage.getItem("player")] = score;
+                if (data.highscores[sessionStorage.getItem("player")] < score)
+                    data.highscores[sessionStorage.getItem("player")] = score;
                 let updateValue = {
                     $set: {
                         highscores: data.highscores
@@ -92,10 +92,12 @@ function runGame() {
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify(updateValue)
+                }).then(() => {
+                    alert("Je tijd is op!" + "\r\n" + "Jouw score was: " + score);
+                    sessionStorage.clear();
+                    location.reload();
                 });
 
-                sessionStorage.clear();
-                location.reload();
             }
         }, timeToThink + timeToSolve);
     }
@@ -104,9 +106,9 @@ function runGame() {
         for (let i = 0; i < inputSequence.length; i++) {
             if (inputSequence[i] != sequence[i]) {
                 gameOver = true;
-                alert("Game Over!" + "\r\n" + "Jouw score was: " + score);
 
-                data.highscores[sessionStorage.getItem("player")] = score;
+                if (data.highscores[sessionStorage.getItem("player")] < score)
+                    data.highscores[sessionStorage.getItem("player")] = score;
                 let updateValue = {
                     $set: {
                         highscores: data.highscores
@@ -119,9 +121,11 @@ function runGame() {
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify(updateValue)
+                }).then(() => {
+                    alert("Game Over!" + "\r\n" + "Jouw score was: " + score);
+                    sessionStorage.clear();
+                    location.reload();
                 });
-                sessionStorage.clear();
-                location.reload();
             }
         }
 
@@ -243,10 +247,12 @@ function randomIntFromInterval(min, max) { // min and max included
 
 start.addEventListener('click', (e) => {
     e.preventDefault();
-    text.style.display = "none";
-    squareContainer.style.marginTop = "20vh";
+    if (sessionStorage.getItem("playing")) {
+        text.style.display = "none";
+        squareContainer.style.marginTop = "20vh";
 
-    setTimeout(() => {
-        runGame();
-    }, 500);
+        setTimeout(() => {
+            runGame();
+        }, 500);
+    }
 });
