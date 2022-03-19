@@ -1,6 +1,6 @@
 let data;
 let sound;
-let noName = false;
+let noNameButKey = false;
 
 let body = document.getElementById("body");
 let start = document.getElementById("start");
