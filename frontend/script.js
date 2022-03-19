@@ -95,7 +95,8 @@ function fetchKeys() {
                 sortedHighScores.push(score);
             });
 
-            sortedHighScores.sort(sortFunction);
+            let sort = sortedHighScores.sort(sortFunction);
+            console.log(sort);
             sortedHighScores.forEach(score => {
                 document.getElementById("highScores").innerHTML += `
                     <p>${i}. ${score[0]}: ${score[1]}</p>
@@ -108,7 +109,7 @@ function fetchKeys() {
 fetchKeys();
 
 function sortFunction(a, b) {
-    return a[1] + b[1]
+    return b[1] - a[1]
 }
 
 function runGame() {
