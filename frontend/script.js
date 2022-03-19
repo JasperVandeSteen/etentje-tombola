@@ -211,32 +211,28 @@ function runGame() {
         function playSquare(sq) {
             switch (sq) {
                 case 1:
-                    sound = new Audio('./resources/beep1.mp3');
-                    sound.play();
+                    playSound("beep1");
                     red.style.opacity = "1";
                     setTimeout(() => {
                         red.style.opacity = "0.7";
                     }, 3000 / 10);
                     break;
                 case 2:
-                    sound = new Audio('./resources/beep2.mp3');
-                    sound.play();
+                    playSound("beep2");
                     blue.style.opacity = "1";
                     setTimeout(() => {
                         blue.style.opacity = "0.7";
                     }, 3000 / 10);
                     break;
                 case 3:
-                    sound = new Audio('./resources/beep3.mp3');
-                    sound.play();
+                    playSound("beep3");
                     green.style.opacity = "1";
                     setTimeout(() => {
                         green.style.opacity = "0.7";
                     }, 3000 / 10);
                     break;
                 case 4:
-                    sound = new Audio('./resources/beep4.mp3');
-                    sound.play();
+                    playSound("beep4");
                     yellow.style.opacity = "1";
                     setTimeout(() => {
                         yellow.style.opacity = "0.7";
@@ -283,6 +279,28 @@ function runGame() {
 function randomIntFromInterval(min, max) { // min and max included 
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
+
+function preLoadSounds() {
+    var preload = new createjs.LoadQueue();
+    preload.loadFile("./resources/beep1.mp3");
+    preload.loadFile("./resources/beep2.mp3");
+    preload.loadFile("./resources/beep3.mp3");
+    preload.loadFile("./resources/beep4.mp3");
+}
+
+function loadSounds() {
+    createjs.Sound.registerSound("./resources/beep1.mp3", "beep1");
+    createjs.Sound.registerSound("./resources/beep2.mp3", "beep2");
+    createjs.Sound.registerSound("./resources/beep3.mp3", "beep3");
+    createjs.Sound.registerSound("./resources/beep4.mp3", "beep4");
+}
+
+function playSound(soundID) {
+    createjs.Sound.play(soundID);
+}
+
+preLoadSounds();
+loadSounds();
 
 start.addEventListener('click', (e) => {
     e.preventDefault();
