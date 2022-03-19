@@ -291,9 +291,6 @@ start.addEventListener('click', (e) => {
 
 red.addEventListener('click', (e) => {
     e.preventDefault();
-    sound = new Audio('./resources/beep1.mp3');
-    sound.play();
-
     red.style.opacity = "1";
     setTimeout(() => {
         red.style.opacity = "0.7";
@@ -301,9 +298,6 @@ red.addEventListener('click', (e) => {
 });
 blue.addEventListener('click', (e) => {
     e.preventDefault();
-    sound = new Audio('./resources/beep2.mp3');
-    sound.play();
-
     blue.style.opacity = "1";
     setTimeout(() => {
         blue.style.opacity = "0.7";
@@ -311,9 +305,6 @@ blue.addEventListener('click', (e) => {
 });
 green.addEventListener('click', (e) => {
     e.preventDefault();
-    sound = new Audio('./resources/beep3.mp3');
-    sound.play();
-
     green.style.opacity = "1";
     setTimeout(() => {
         green.style.opacity = "0.7";
@@ -321,9 +312,6 @@ green.addEventListener('click', (e) => {
 });
 yellow.addEventListener('click', (e) => {
     e.preventDefault();
-    sound = new Audio('./resources/beep4.mp3');
-    sound.play();
-
     yellow.style.opacity = "1";
     setTimeout(() => {
         yellow.style.opacity = "0.7";
