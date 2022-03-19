@@ -203,37 +203,21 @@ function runGame() {
     red.addEventListener('click', (e) => {
         e.preventDefault();
         inputSequence.push(1);
-
-        sound = new Audio('./resources/beep1.mp3');
-        sound.play();
-
         checkSequence();
     });
     blue.addEventListener('click', (e) => {
         e.preventDefault();
         inputSequence.push(2);
-
-        sound = new Audio('./resources/beep2.mp3');
-        sound.play();
-
         checkSequence();
     });
     green.addEventListener('click', (e) => {
         e.preventDefault();
         inputSequence.push(3);
-
-        sound = new Audio('./resources/beep3.mp3');
-        sound.play();
-
         checkSequence();
     });
     yellow.addEventListener('click', (e) => {
         e.preventDefault();
         inputSequence.push(4);
-
-        sound = new Audio('./resources/beep4.mp3');
-        sound.play();
-
         checkSequence();
     });
 
@@ -255,4 +239,25 @@ start.addEventListener('click', (e) => {
             runGame();
         }, 500);
     }
+});
+
+red.addEventListener('click', (e) => {
+    e.preventDefault();
+    sound = new Audio('./resources/beep1.mp3');
+    sound.play();
+});
+blue.addEventListener('click', (e) => {
+    e.preventDefault();
+    sound = new Audio('./resources/beep2.mp3');
+    sound.play();
+});
+green.addEventListener('click', (e) => {
+    e.preventDefault();
+    sound = new Audio('./resources/beep3.mp3');
+    sound.play();
+});
+yellow.addEventListener('click', (e) => {
+    e.preventDefault();
+    sound = new Audio('./resources/beep4.mp3');
+    sound.play();
 });
