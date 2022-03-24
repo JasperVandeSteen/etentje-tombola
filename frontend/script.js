@@ -124,6 +124,10 @@ function runGame() {
     let score = 0;
     let timer;
 
+    if (!sessionStorage.getItem('tries')) {
+        sessionStorage.setItem('tries', 3);
+    }
+
     function awaitInput() {
         inputSequence = [];
         completed = false;
@@ -131,27 +135,43 @@ function runGame() {
         timer = setTimeout(() => {
             if (!completed && !gameOver) {
                 let player = sessionStorage.getItem("player");
-
-                if (data.highscores[player] < score || data.highscores[player] == undefined)
-                    data.highscores[player] = score;
-                let updateValue = {
-                    $set: {
-                        highscores: data.highscores
+                if (sessionStorage.getItem('tries') > 1) {
+                    let oldValue = sessionStorage.getItem("tries");
+                    let newValue = oldValue - 1;
+                    if (sessionStorage.getItem('score')) {
+                        let previousScore = sessionStorage.getItem('score');
+                        if (score > previousScore) {
+                            sessionStorage.setItem('score', score);
+                        }
+                    } else {
+                        sessionStorage.setItem('score', score);
                     }
-                };
-                fetch('https://etentje-tombola-backend.herokuapp.com/api/addHighScore/6233bc7c2a95dc8efb1e6494', {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(updateValue)
-                }).then(() => {
-                    alert("Je tijd is op!" + "\r\n" + "Jouw score was: " + score);
-                    sessionStorage.clear();
-                    location.reload();
-                });
 
+                    alert("Je tijd is op! Je mag nog " + (newValue) + " keer proberen...");
+                    sessionStorage.setItem("tries", newValue);
+                    location.reload();
+                } else {
+                    if (data.highscores[player] < score || data.highscores[player] == undefined)
+                        data.highscores[player] = score;
+                    let updateValue = {
+                        $set: {
+                            highscores: data.highscores
+                        }
+                    };
+                    fetch('https://etentje-tombola-backend.herokuapp.com/api/addHighScore/6233bc7c2a95dc8efb1e6494', {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(updateValue)
+                    }).then(() => {
+                        let finalScore = sessionStorage.getItem('score');
+                        alert("Je tijd is op!" + "\r\n" + "Jouw top score was: " + finalScore);
+                        sessionStorage.clear();
+                        location.reload();
+                    });
+                }
             }
         }, timeToThink + timeToSolve);
     }
@@ -162,25 +182,43 @@ function runGame() {
                 gameOver = true;
                 let player = sessionStorage.getItem("player");
 
-                if (data.highscores[player] < score || data.highscores[player] == undefined)
-                    data.highscores[player] = score;
-                let updateValue = {
-                    $set: {
-                        highscores: data.highscores
+                if (sessionStorage.getItem('tries') > 1) {
+                    let oldValue = sessionStorage.getItem("tries");
+                    let newValue = oldValue - 1;
+                    if (sessionStorage.getItem('score')) {
+                        let previousScore = sessionStorage.getItem('score');
+                        if (score > previousScore) {
+                            sessionStorage.setItem('score', score);
+                        }
+                    } else {
+                        sessionStorage.setItem('score', score);
                     }
-                };
-                fetch('https://etentje-tombola-backend.herokuapp.com/api/addHighScore/6233bc7c2a95dc8efb1e6494', {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(updateValue)
-                }).then(() => {
-                    alert("Game Over!" + "\r\n" + "Jouw score was: " + score);
-                    sessionStorage.clear();
+
+                    alert("Game Over! Je mag nog " + (newValue) + " keer proberen...");
+                    sessionStorage.setItem("tries", newValue);
                     location.reload();
-                });
+                } else {
+                    if (data.highscores[player] < score || data.highscores[player] == undefined)
+                        data.highscores[player] = score;
+                    let updateValue = {
+                        $set: {
+                            highscores: data.highscores
+                        }
+                    };
+                    fetch('https://etentje-tombola-backend.herokuapp.com/api/addHighScore/6233bc7c2a95dc8efb1e6494', {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(updateValue)
+                    }).then(() => {
+                        let finalScore = sessionStorage.getItem('score');
+                        alert("Je tijd is op!" + "\r\n" + "Jouw top score was: " + finalScore);
+                        sessionStorage.clear();
+                        location.reload();
+                    });
+                }
             }
         }
 
