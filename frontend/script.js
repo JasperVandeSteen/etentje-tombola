@@ -147,7 +147,7 @@ function runGame() {
                         sessionStorage.setItem('score', score);
                     }
 
-                    alert("Je tijd is op! Je mag nog " + (newValue) + " keer proberen...");
+                    alert("Je tijd is op! Je mag nog " + (newValue) + " keer proberen... | Score = " + score);
                     sessionStorage.setItem("tries", newValue);
                     location.reload();
                 } else {
@@ -166,7 +166,14 @@ function runGame() {
                         },
                         body: JSON.stringify(updateValue)
                     }).then(() => {
-                        let finalScore = sessionStorage.getItem('score');
+                        let finalScore;
+                        let previousScore = sessionStorage.getItem('score');
+                        if (score > previousScore) {
+                            finalScore = score;
+                        } else {
+                            finalScore = sessionStorage.getItem('score');
+                        }
+
                         alert("Je tijd is op!" + "\r\n" + "Jouw top score was: " + finalScore);
                         sessionStorage.clear();
                         location.reload();
@@ -194,7 +201,7 @@ function runGame() {
                         sessionStorage.setItem('score', score);
                     }
 
-                    alert("Game Over! Je mag nog " + (newValue) + " keer proberen...");
+                    alert("Game Over! Je mag nog " + (newValue) + " keer proberen... | Score = " + score);
                     sessionStorage.setItem("tries", newValue);
                     location.reload();
                 } else {
@@ -213,7 +220,14 @@ function runGame() {
                         },
                         body: JSON.stringify(updateValue)
                     }).then(() => {
-                        let finalScore = sessionStorage.getItem('score');
+                        let finalScore;
+                        let previousScore = sessionStorage.getItem('score');
+                        if (score > previousScore) {
+                            finalScore = score;
+                        } else {
+                            finalScore = sessionStorage.getItem('score');
+                        }
+
                         alert("Je tijd is op!" + "\r\n" + "Jouw top score was: " + finalScore);
                         sessionStorage.clear();
                         location.reload();
